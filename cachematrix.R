@@ -1,8 +1,17 @@
-## Put comments here that give an overall description of what your
-## functions do
+## Caching the Inverse of a square matrix
+##  with 2 funtions makeCacheMatrix + cacheSolve
 
-## Write a short comment describing this function
 
+## makeCacheMatrix: 
+##  This function creates a special "matrix" object 
+##  that can cache its inverse
+##  usage:
+##     m <- makeCacheMatrix( matrix(c(1,2,14,25), nrow = 2, ncol = 2) );
+##  check the result: 
+##     summary(m)
+##  show matrix:
+##     m$get()
+ 
 makeCacheMatrix <- function(x = matrix()) {
         matinv <- NULL
         set <- function(y) {
@@ -10,26 +19,31 @@ makeCacheMatrix <- function(x = matrix()) {
                 matinv <<- NULL
         }
         get <- function() x
-        setsolv <- function(mean) matinv <<- solv
-        getsolv <- function() matinv
+        setsolve <- function(solve) matinv <<- solve
+        getsolve <- function() matinv
         list(set = set, get = get,
-             setsolv = setsolv,
-             getsolv = getsolv)
+             setsolve = setsolve,
+             getsolve = getsolve)
 }
 
 
-## Write a short comment describing this function
+## cacheSolve:
+##  This function computes the inverse of the special "matrix" 
+##  returned by makeCacheMatrix
+##  usage:
+##     getSolve(m) ## 1st call: result: inverse matrix
+##     getSolve(m) ## 2nd call: result: message "getting cached data" + inverse matrix
 
 cacheSolve <- function(x, ...) {
         ## Return a matrix that is the inverse of 'x'
-        matinv <- x$getsolv()
+        matinv <- x$getsolve()
         if(!is.null(matinv)) {
                 message("getting cached data")
                 return(matinv)
         }
         data <- x$get()
-        matinv <- solv(data, ...)
-        x$setsolv(matinv)
+        matinv <- solve(data, ...)
+        x$setsolve(matinv)
         matinv
 
 }
